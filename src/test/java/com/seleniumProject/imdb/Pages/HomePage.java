@@ -68,7 +68,7 @@ public class HomePage {
 	 * 
 	 * @param keyWords
 	 * 
-	 * @return String array that collected from List<WebElements>
+	 * @return String array that collected from List<WebElement>
 	 */
 	public String[] getFirstThreeSuggesstions(String keyWords) {
 
