@@ -73,13 +73,13 @@ public class HomePage {
 	public String[] getFirstThreeSuggesstions(String keyWords) {
 
 		this.setTextToSeachBox(keyWords);
+ 
+		String[] tempList = new String[firstThreeSuggesstions.size()];
 
-		String[] myList = new String[firstThreeSuggesstions.size()];
+		for(int i = 0 ; i < tempList.length ; i++)
+			tempList[i] = firstThreeSuggesstions.get(i).getText();
 
-		for(int i = 0 ; i < myList.length ; i++)
-			myList[i] = firstThreeSuggesstions.get(i).getText();
-
-		return myList;
+		return tempList;
 	}
 	/**
 	 *
