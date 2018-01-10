@@ -9,7 +9,8 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
 public class HomePage {
-
+	
+	
 	WebDriver driver;
 
 	@FindBy(xpath = "//*[@id=\"navbar-query\"]")
@@ -21,8 +22,11 @@ public class HomePage {
 	@FindBy(xpath = "//*[@id=\"quicksearch\"]")
 	WebElement searchReference;
 
-	@FindBy(xpath = "//*[@id=\"navMenu1\"]/div[2]/ul[1]/li[6]/a")
+	@FindBy(xpath = "/html/body/div[1]/div/div[1]/div[2]/div[1]/ul/li[2]/div/div[2]/ul[1]/li[6]/a")
 	WebElement showTopRatedMovies;
+	
+	@FindBy(xpath = "//*[@id=\"navTitleMenu\"]/span")
+	WebElement enableMenu;
 
 	@FindBys({
 		@FindBy(xpath = "//*[@id=\\\"navbar-suggestionsearch\\\"]/a[0]/div"),
@@ -48,7 +52,7 @@ public class HomePage {
 	 * @return
 	 */
 	public void goToTopRatedMovies() {
-
+		enableMenu.click();
 		showTopRatedMovies.click();
 
 	}

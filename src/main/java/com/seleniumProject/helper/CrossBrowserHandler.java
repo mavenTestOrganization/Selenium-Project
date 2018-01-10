@@ -26,7 +26,7 @@ public class CrossBrowserHandler {
 		if( browser.equalsIgnoreCase("firefox") ) {
 
 			System.setProperty("webdriver.gecko.driver",
-					System.getProperty("user.dir")+"src\\main\\drivers\\geckodriver.exe");
+					System.getProperty("user.dir")+"\\src\\main\\drivers\\geckodriver.exe");
 
 			driver = new FirefoxDriver();
 
@@ -34,7 +34,7 @@ public class CrossBrowserHandler {
 		else if( browser.equalsIgnoreCase("chrome") ) {
 
 			System.setProperty("webdriver.chrome.driver",
-					System.getProperty("user.dir")+"src\\main\\drivers\\chromedriver.exe");
+					System.getProperty("user.dir")+"\\src\\main\\drivers\\chromedriver.exe");
 
 			driver = new ChromeDriver();
 
