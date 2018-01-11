@@ -12,8 +12,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
  *
  */
 public class CrossBrowserHandler {
-	static WebDriver driver;
-
 	/**
 	 * This function runs the browser with given browser and URL
 	 * @param browser as String
@@ -22,7 +20,9 @@ public class CrossBrowserHandler {
 	 * 
 	 */
 	public static WebDriver startBrowser(String browser,String URL) {
-
+		
+		WebDriver driver;
+		
 		if( browser.equalsIgnoreCase("firefox") ) {
 
 			System.setProperty("webdriver.gecko.driver",

@@ -2,23 +2,15 @@
 <testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="17115" started-at="2018-01-11T01:33:49Z" finished-at="2018-01-11T01:34:06Z">
+  <suite name="Default suite" duration-ms="27095" started-at="2018-01-11T09:12:59Z" finished-at="2018-01-11T09:13:26Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="17115" started-at="2018-01-11T01:33:49Z" finished-at="2018-01-11T01:34:06Z">
+    <test name="Default test" duration-ms="27095" started-at="2018-01-11T09:12:59Z" finished-at="2018-01-11T09:13:26Z">
       <class name="com.seleniumProject.imdb.Tests.TestSample01">
-        <test-method status="PASS" signature="init()[pri:0, instance:com.seleniumProject.imdb.Tests.TestSample01@3bfdc050]" name="init" is-config="true" duration-ms="11163" started-at="2018-01-11T03:33:49Z" finished-at="2018-01-11T03:34:00Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- init -->
-        <test-method status="PASS" signature="checkMovieNames()[pri:0, instance:com.seleniumProject.imdb.Tests.TestSample01@3bfdc050]" name="checkMovieNames" duration-ms="5358" started-at="2018-01-11T03:34:00Z" finished-at="2018-01-11T03:34:06Z">
+        <test-method status="PASS" signature="checkMovieNames()[pri:0, instance:com.seleniumProject.imdb.Tests.TestSample01@5e5792a0]" name="checkMovieNames" duration-ms="27069" started-at="2018-01-11T11:12:59Z" finished-at="2018-01-11T11:13:26Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- checkMovieNames -->
-        <test-method status="PASS" signature="cleanUp()[pri:0, instance:com.seleniumProject.imdb.Tests.TestSample01@3bfdc050]" name="cleanUp" is-config="true" duration-ms="550" started-at="2018-01-11T03:34:06Z" finished-at="2018-01-11T03:34:06Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- cleanUp -->
       </class> <!-- com.seleniumProject.imdb.Tests.TestSample01 -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
