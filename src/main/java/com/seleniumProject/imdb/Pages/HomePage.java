@@ -1,5 +1,7 @@
 package com.seleniumProject.imdb.Pages;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -86,10 +88,14 @@ public class HomePage {
 		// wait until suggestion bar is visible
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
 				By.id("navbar-suggestionsearch")));
-
+		
 		String[] tempList = new String[range];
-
+		
 		for(int i = 0 ; i < range ; i++) {
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+					"//*[@id=\"navbar-suggestionsearch\"]/a["+(i+1)+"]/div")));
+			
 			tempList[i] = driver.findElement(By.xpath(
 					"//*[@id=\"navbar-suggestionsearch\"]/a["+(i+1)+"]/div"
 					)).getText();

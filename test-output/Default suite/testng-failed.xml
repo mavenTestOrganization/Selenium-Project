@@ -6,6 +6,8 @@
       <class name="com.seleniumProject.imdb.Tests.TestSample01">
         <methods>
           <include name="checkMovieNames"/>
+          <include name="handleError"/>
+          <include name="init"/>
         </methods>
       </class> <!-- com.seleniumProject.imdb.Tests.TestSample01 -->
     </classes>

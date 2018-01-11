@@ -2,7 +2,8 @@ package com.seleniumProject.imdb.Tests;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -25,88 +26,112 @@ import com.seleniumProject.imdb.Pages.TopRatedPage;
  *
  */
 public class TestSample01 {
-		/* Extent - Report API elements */
-		ExtentReports extent;
+	/* Extent - Report API elements */
+	ExtentReports extent;
 
-		ExtentHtmlReporter htmlReporter;
+	ExtentHtmlReporter htmlReporter;
 
-		ExtentTest logger;
-		/*********************************/
+	ExtentTest logger;
+	/*********************************/
 
-		// Needed Pages for the test
-		HomePage objHomePage;
+	// Needed Pages for the test
+	HomePage objHomePage;
 
-		TopRatedPage objTopRatedPage;
+	TopRatedPage objTopRatedPage;
 
-		WebDriver driver;
+	WebDriver driver;
+	
+	// Given movie list both TR and ENG
+	String[] arrayEN = {"The Shawshank Redemption", "The Godfather",
+			"The Godfather: Part II", "The Dark Knight", "Schindler's List"};
 
-		// Given movie list both TR and ENG
-		String[] arrayEN = {"The Shawshank Redemption", "The Godfather",
-				"The Godfather: Part II", "The Dark Knight", "Schindler's List"};
+	String[] arrayTR = {"Esaretin Bedeli", "Baba", 
+			"Baba 2", "Kara Sövalye", "Schindler'in Listesi"};
 
-		String[] arrayTR = {"Esaretin Bedeli", "Baba", 
-				"Baba 2", "Kara Sövalye", "Schindler'in Listesi"};
+	/**
+	 * initialization
+	 */
+	@BeforeTest
+	public void init() {
+		/* Extent - Reporter configurations */
+		htmlReporter = new ExtentHtmlReporter(
+				System.getProperty("user.dir") +"/test-output/"
+						+ this.getClass().getSimpleName() +"_REPORT.html");
+		extent = new ExtentReports ();
+		extent.attachReporter(htmlReporter);
+		extent.setSystemInfo("Host Name", "borhanMorphy");
+		extent.setSystemInfo("Environment", "Project Demo");
+		extent.setSystemInfo("User Name", "Omer BORHAN");
+
+		htmlReporter.config().setDocumentTitle("Selenium Project");
+		htmlReporter.config().setReportName("Check Top Rated Movies");
+		htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
+		htmlReporter.config().setTheme(Theme.STANDARD);
+		/************************************/
 		
-		/**
-		 * initialization
-		 */
-		@BeforeTest
-		public void init() {
-			htmlReporter = new ExtentHtmlReporter(
-					System.getProperty("user.dir") +"/test-output/"
-							+ this.getClass().getSimpleName() +"_REPORT.html");
-			extent = new ExtentReports ();
-			extent.attachReporter(htmlReporter);
-			extent.setSystemInfo("Host Name", "borhanMorphy");
-			extent.setSystemInfo("Environment", "Project Demo");
-			extent.setSystemInfo("User Name", "Omer BORHAN");
+		// creating driver with given browser and URL
+		driver = CrossBrowserHandler.startBrowser("chrome", "http://www.imdb.com/");
+	}
 
-			htmlReporter.config().setDocumentTitle("Selenium Project");
-			htmlReporter.config().setReportName("Check Top Rated Movies");
-			htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
-			htmlReporter.config().setTheme(Theme.STANDARD);
+	@Test
+	public void checkMovieNames() {
+		// assuming test is passed
+		boolean testControl = true;
 
-			driver = CrossBrowserHandler.startBrowser("chrome", "http://www.imdb.com/");
-		}
+		// creating logger
+		logger = extent.createTest("Try To Match Given Movies");
+
+		objHomePage = new HomePage(driver);
+
+		objHomePage.goToTopRatedMovies();
+
+		objTopRatedPage = new TopRatedPage(driver);
 		
-		@Test
-		public void checkMovieNames() {
-			// creating logger
-			logger = extent.createTest("Try To Match Given Movies");
+		// getting top rated movies from the list with count of array length
+		String[] movieList = objTopRatedPage.getTopRatedMovies(arrayTR.length);
 
-			objHomePage = new HomePage(driver);
+		for(int i = 0; i < movieList.length ; i++) {
+			// check either on of them is found (TR or ENG)
+			if(arrayEN[i].equalsIgnoreCase(movieList[i]) ||
+					arrayTR[i].equalsIgnoreCase(movieList[i]) 
+					) {
+				// keep logging if its matched
+				logger.log(Status.PASS, MarkupHelper.createLabel(
+						arrayEN[i]+" is matched", ExtentColor.GREEN));
 
-			objHomePage.goToTopRatedMovies();
-
-			objTopRatedPage = new TopRatedPage(driver);
-
-			String[] movieList = objTopRatedPage.getTopRatedMovies(arrayTR.length);
-
-			for(int i = 0; i < movieList.length ; i++) {
-				try {
-					// check either on of them is found (TR or ENG)
-					Assert.assertTrue(
-							( arrayEN[i].equalsIgnoreCase(movieList[i])
-							  ||
-							  arrayTR[i].equalsIgnoreCase(movieList[i]) )
-							);
-					// keep logging if its matched
-					logger.log(Status.PASS, MarkupHelper.createLabel(
-							arrayEN[i]+" is matched", ExtentColor.GREEN));
-
-				}catch(AssertionError e) {
-					// catch error and log as fail
-					logger.log(Status.FAIL, MarkupHelper.createLabel(
-							arrayEN[i]+" is not matched!", ExtentColor.RED));
-				}
+			}
+			else {
+				testControl = false;
+				// catch error and log as fail
+				logger.log(Status.FAIL, MarkupHelper.createLabel(
+						arrayEN[i]+" is not matched!", ExtentColor.RED));
 
 			}
 		}
-		
-		@AfterTest
-		public void cleanup() {
-			extent.flush();
-			driver.close();
+
+		// check if test is passed
+		Assert.assertTrue(testControl);
+
+	}
+
+	@AfterMethod
+	public void handleError(ITestResult result) {
+		if(result.getStatus() == ITestResult.FAILURE){
+
+			logger.log(Status.FAIL, MarkupHelper.createLabel(
+					result.getName() + " - Test Case Failed - "+result.getThrowable(), ExtentColor.RED));
+
 		}
+		else if(result.getStatus() == ITestResult.SKIP){
+
+			logger.log(Status.SKIP, MarkupHelper.createLabel
+					(result.getName() + " - Test Case Skipped", ExtentColor.ORANGE));	
+
+		}
+
+		// cleanup
+		extent.flush();
+		driver.close();
+	}
 
 }
