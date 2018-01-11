@@ -1,40 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="1" ignored="0" total="1" passed="0">
+<testng-results skipped="0" failed="1" ignored="0" total="2" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="14961" started-at="2018-01-11T12:44:16Z" finished-at="2018-01-11T12:44:31Z">
+  <suite name="Default suite" duration-ms="41724" started-at="2018-01-11T21:15:13Z" finished-at="2018-01-11T21:15:55Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="14961" started-at="2018-01-11T12:44:16Z" finished-at="2018-01-11T12:44:31Z">
-      <class name="com.seleniumProject.imdb.Tests.TestSample01">
-        <test-method status="PASS" signature="init()[pri:0, instance:com.seleniumProject.imdb.Tests.TestSample01@3bfdc050]" name="init" is-config="true" duration-ms="7147" started-at="2018-01-11T14:44:16Z" finished-at="2018-01-11T14:44:24Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- init -->
-        <test-method status="FAIL" signature="checkMovieNames()[pri:0, instance:com.seleniumProject.imdb.Tests.TestSample01@3bfdc050]" name="checkMovieNames" duration-ms="5380" started-at="2018-01-11T14:44:24Z" finished-at="2018-01-11T14:44:29Z">
+    <test name="Default test" duration-ms="41724" started-at="2018-01-11T21:15:13Z" finished-at="2018-01-11T21:15:55Z">
+      <class name="com.seleniumProject.imdb.Tests.TestSample03">
+        <test-method status="FAIL" signature="checkProfilePhoto(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.seleniumProject.imdb.Tests.TestSample03@3532ec19]" name="checkProfilePhoto" duration-ms="20546" started-at="2018-01-11T23:15:13Z" data-provider="TestImage" finished-at="2018-01-11T23:15:34Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[https://images-na.ssl-images-amazon.com/images/M/MV5BNzg1MTUyNDYxOF5BMl5BanBnXkFtZTgwNTQ4MTE2MjE@._V1_UX214_CR0,0,214,317_AL_.jpg]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[checkProfilePhoto_1]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[Tom Hanks]]>
+              </value>
+            </param>
+          </params>
           <exception class="java.lang.AssertionError">
             <message>
               <![CDATA[expected [true] but found [false]]]>
             </message>
             <full-stacktrace>
-              <![CDATA[java.lang.AssertionError: expected [true] but found [false]at org.testng.Assert.fail(Assert.java:96)at org.testng.Assert.failNotEquals(Assert.java:776)at org.testng.Assert.assertTrue(Assert.java:44)at org.testng.Assert.assertTrue(Assert.java:54)at com.seleniumProject.imdb.Tests.TestSample01.checkMovieNames(TestSample01.java:111)at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)at java.lang.reflect.Method.invoke(Unknown Source)at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)at org.testng.internal.Invoker.invokeMethod(Invoker.java:571)at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:707)at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:979)at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)at org.testng.TestRunner.privateRun(TestRunner.java:648)at org.testng.TestRunner.run(TestRunner.java:505)at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)at org.testng.SuiteRunner.run(SuiteRunner.java:364)at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)at org.testng.TestNG.runSuitesSequentially(TestNG.java:1187)at org.testng.TestNG.runSuitesLocally(TestNG.java:1116)at org.testng.TestNG.runSuites(TestNG.java:1028)at org.testng.TestNG.run(TestNG.java:996)at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:114)at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)]]>
+              <![CDATA[java.lang.AssertionError: expected [true] but found [false]at org.testng.Assert.fail(Assert.java:96)at org.testng.Assert.failNotEquals(Assert.java:776)at org.testng.Assert.assertTrue(Assert.java:44)at org.testng.Assert.assertTrue(Assert.java:54)at com.seleniumProject.imdb.Tests.TestSample03.checkProfilePhoto(TestSample03.java:99)at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)at java.lang.reflect.Method.invoke(Unknown Source)at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)at org.testng.internal.Invoker.invokeMethod(Invoker.java:571)at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:707)at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:979)at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)at org.testng.TestRunner.privateRun(TestRunner.java:648)at org.testng.TestRunner.run(TestRunner.java:505)at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)at org.testng.SuiteRunner.run(SuiteRunner.java:364)at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)at org.testng.TestNG.runSuitesSequentially(TestNG.java:1187)at org.testng.TestNG.runSuitesLocally(TestNG.java:1116)at org.testng.TestNG.runSuites(TestNG.java:1028)at org.testng.TestNG.run(TestNG.java:996)at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:114)at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)]]>
             </full-stacktrace>
           </exception> <!-- java.lang.AssertionError -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- checkMovieNames -->
-        <test-method status="PASS" signature="handleError(org.testng.ITestResult)[pri:0, instance:com.seleniumProject.imdb.Tests.TestSample01@3bfdc050]" name="handleError" is-config="true" duration-ms="2420" started-at="2018-01-11T14:44:29Z" finished-at="2018-01-11T14:44:31Z">
+        </test-method> <!-- checkProfilePhoto -->
+        <test-method status="PASS" signature="checkProfilePhoto(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.seleniumProject.imdb.Tests.TestSample03@3532ec19]" name="checkProfilePhoto" duration-ms="21144" started-at="2018-01-11T23:15:34Z" data-provider="TestImage" finished-at="2018-01-11T23:15:55Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[[TestResult name=checkMovieNames status=FAILURE method=TestSample01.checkMovieNames()[pri:0, instance:com.seleniumProject.imdb.Tests.TestSample01@3bfdc050] output={null}]]]>
+                <![CDATA[https://images-na.ssl-images-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_UY317_CR2,0,214,317_AL_.jpg]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[checkProfilePhoto_2]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[Tom Hanks]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- handleError -->
-      </class> <!-- com.seleniumProject.imdb.Tests.TestSample01 -->
+        </test-method> <!-- checkProfilePhoto -->
+      </class> <!-- com.seleniumProject.imdb.Tests.TestSample03 -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

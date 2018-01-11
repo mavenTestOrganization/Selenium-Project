@@ -5,15 +5,9 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.markuputils.ExtentColor;
-import com.aventstack.extentreports.markuputils.MarkupHelper;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import com.aventstack.extentreports.reporter.configuration.ChartLocation;
-import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.seleniumProject.helper.CrossBrowserHandler;
+import com.seleniumProject.helper.ExtentAPIReporter;
 import com.seleniumProject.imdb.Pages.HomePage;
 
 /**
@@ -23,14 +17,10 @@ import com.seleniumProject.imdb.Pages.HomePage;
  *
  */
 public class TestSample02 {
-	/* Extent - Report API elements */
-	ExtentReports extent;
-
-	ExtentHtmlReporter htmlReporter;
-
-	ExtentTest logger;
-	/*********************************/
-
+	
+	// Extent - Reporter object
+	ExtentAPIReporter objReporter;
+	
 	// Needed Pages for the test
 	HomePage objHomePage;
 
@@ -41,40 +31,25 @@ public class TestSample02 {
 	public Object[][] getData(){
 		
 		return new Object[][] {
-			{"Godfather","TestSample02_1"},
-			{"Harry potter","TestSample02_2"},
-			{"Star Wars","TestSample02_3"},
-			{"Tom Hulce","TestSample02_4"},
+			{"Godfather","checkMovieNames"},
+			{"Harry potter","checkMovieNames"},
+			{"Star Wars","checkMovieNames"},
+			{"Tom Hulce","checkMovieNames"},
 		};
 	}
 	
 	// test sample with parameters
 	@Test(dataProvider="TestData")
 	public void checkMovieNames(String keyWord, String reportName) {
-		// assuming test is passed
-		boolean testControl = true;
 		
-		/* Extent - Reporter configurations */
-		htmlReporter = new ExtentHtmlReporter(
-				System.getProperty("user.dir") +"/test-output/"
-						+ reportName +"_REPORT.html");
-		extent = new ExtentReports ();
-		extent.attachReporter(htmlReporter);
-		extent.setSystemInfo("Host Name", "borhanMorphy");
-		extent.setSystemInfo("Environment", "Project Demo");
-		extent.setSystemInfo("User Name", "Omer BORHAN");
-
-		htmlReporter.config().setDocumentTitle("Selenium Project");
-		htmlReporter.config().setReportName("Check Suggestions");
-		htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
-		htmlReporter.config().setTheme(Theme.STANDARD);
-		/*************************************/
+		// create reporter object
+		objReporter = new ExtentAPIReporter(keyWord+"_"+reportName);
 		
 		// creating driver with given browser and URL
 		driver = CrossBrowserHandler.startBrowser("chrome", "http://www.imdb.com/");
-
-		// creating logger
-		logger = extent.createTest("Try To Find Suggestions");
+		
+		// creating a test logger
+		objReporter.setupLogger("Check Suggestions");
 
 		objHomePage = new HomePage(driver);
 		
@@ -85,23 +60,21 @@ public class TestSample02 {
 			// check either on of them is found (TR or ENG)
 			if(movieList[i].toLowerCase().contains(keyWord.toLowerCase())) {
 				// keep logging if its matched
-				logger.log(Status.PASS, MarkupHelper.createLabel(
-						(i+1)+". found", ExtentColor.GREEN));
+				objReporter.LOG(Status.PASS, (i+1)+". found");
+				
 			}
 			else {
-				testControl = false;
-				// catch error and log as fail
-				logger.log(Status.FAIL, MarkupHelper.createLabel(
-						(i+1)+". not found!", ExtentColor.RED));
+				// log fail case
+				objReporter.LOG(Status.ERROR, (i+1)+". not found!");
 			}
 		}
 		
 		// cleanup
-		extent.flush();
+		objReporter.cleanup();
 		driver.close();
 
 		// check if the test is passed
-		Assert.assertTrue(testControl);
+		Assert.assertTrue(objReporter.isTestControl());
 		
 	}
 

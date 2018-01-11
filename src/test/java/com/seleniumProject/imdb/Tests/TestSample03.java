@@ -8,32 +8,22 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.markuputils.ExtentColor;
-import com.aventstack.extentreports.markuputils.MarkupHelper;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import com.aventstack.extentreports.reporter.configuration.ChartLocation;
-import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.seleniumProject.helper.CrossBrowserHandler;
+import com.seleniumProject.helper.ExtentAPIReporter;
 import com.seleniumProject.helper.MD5ImageComparator;
 import com.seleniumProject.imdb.Pages.ActorProfilePage;
 
 /**
- * Go imdb homepage, Search given name,
+ * Go imdb.com home page, Search given name,
  * Search only names, Select first result
  * Compare image hashes.  
  * 
  */
 public class TestSample03 {
-	/*Extent - Report API elements */
-	ExtentReports extent;
-
-	ExtentHtmlReporter htmlReporter;
-
-	ExtentTest logger;
-	/*********************************/
+	
+	// Extent - Reporter object
+	ExtentAPIReporter objReporter;
 
 	// Needed Pages for the test
 	HomePage objHomePage;
@@ -54,42 +44,27 @@ public class TestSample03 {
 				+ "OF5BMl5BanBnXkFtZTgwNTQ4MTE2MjE@._V1_UX214_CR0,0,214,317_AL_.jpg";
 		
 		return new Object[][] {
-			{Robert_Downey_JR,"TestSample03_1"},
-			{Tom_Hanks,"TestSample03_2"}
+			{Robert_Downey_JR,"checkProfilePhoto_1","Tom Hanks"},
+			{Tom_Hanks,"checkProfilePhoto_2","Tom Hanks"}
 		};
 	}
 
 	// test sample with parameters
 	@Test(dataProvider="TestImage")
-	public void checkProfilePhoto(String URL, String reportName){
-		// assuming test is passed
-		boolean testControl = true;
-
-		/* Extent - Reporter configurations */
-		htmlReporter = new ExtentHtmlReporter(
-				System.getProperty("user.dir") +"/test-output/"
-						+ reportName +"_REPORT.html");
-		extent = new ExtentReports ();
-		extent.attachReporter(htmlReporter);
-		extent.setSystemInfo("Host Name", "mchtctn");
-		extent.setSystemInfo("Environment", "Project Demo");
-		extent.setSystemInfo("User Name", "Mucahit Cetin");
-
-		htmlReporter.config().setDocumentTitle("Selenium Project");
-		htmlReporter.config().setReportName("Check Top Rated Movies");
-		htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
-		htmlReporter.config().setTheme(Theme.STANDARD);
-		/**************************************/
+	public void checkProfilePhoto(String URL, String reportName, String searchKey){
+		
+		// create reporter object
+		objReporter = new ExtentAPIReporter(searchKey+"_"+reportName);
 
 		// creating driver with given browser and URL
 		driver = CrossBrowserHandler.startBrowser("firefox", "http://www.imdb.com/");
 
 		// creating logger
-		logger = extent.createTest("Compare IMAGES");
+		objReporter.setupLogger("Compare Images");
 		
 		objHomePage = new HomePage(driver);
 
-		objHomePage.setTextToSeachBox("Tom Hanks");
+		objHomePage.setTextToSeachBox(searchKey);
 		objHomePage.setSearchReference();
 		objHomePage.clickSearchButton();
 
@@ -103,22 +78,18 @@ public class TestSample03 {
 				URL,
 				objActorProfilePage.getPhotoURL("name-poster") ) ) {
 			// if picture is matched
-			logger.log(Status.PASS, MarkupHelper.createLabel(
-					"same", ExtentColor.GREEN));
+			objReporter.LOG(Status.PASS, "same" );
 		}
 		else {
-			testControl=false;
-			//catch error and log as fail
-			logger.log(Status.FAIL, MarkupHelper.createLabel(
-					"not same!", ExtentColor.RED));
+			objReporter.LOG(Status.ERROR, "not same!");
 		}
 
 		// cleanup
-		extent.flush();
+		objReporter.cleanup();
 		driver.close();
 
 		// check if the test is passed
-		Assert.assertTrue(testControl);
+		Assert.assertTrue(objReporter.isTestControl());
 	}
 
 

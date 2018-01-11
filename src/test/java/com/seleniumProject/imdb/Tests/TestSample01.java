@@ -7,15 +7,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.markuputils.ExtentColor;
-import com.aventstack.extentreports.markuputils.MarkupHelper;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import com.aventstack.extentreports.reporter.configuration.ChartLocation;
-import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.seleniumProject.helper.CrossBrowserHandler;
+import com.seleniumProject.helper.ExtentAPIReporter;
 import com.seleniumProject.imdb.Pages.HomePage;
 import com.seleniumProject.imdb.Pages.TopRatedPage;
 
@@ -26,17 +20,12 @@ import com.seleniumProject.imdb.Pages.TopRatedPage;
  *
  */
 public class TestSample01 {
-	/* Extent - Report API elements */
-	ExtentReports extent;
-
-	ExtentHtmlReporter htmlReporter;
-
-	ExtentTest logger;
-	/*********************************/
+	
+	// Extent - Reporter object
+	ExtentAPIReporter objReporter;
 
 	// Needed Pages for the test
 	HomePage objHomePage;
-
 	TopRatedPage objTopRatedPage;
 
 	WebDriver driver;
@@ -53,21 +42,7 @@ public class TestSample01 {
 	 */
 	@BeforeTest
 	public void init() {
-		/* Extent - Reporter configurations */
-		htmlReporter = new ExtentHtmlReporter(
-				System.getProperty("user.dir") +"/test-output/"
-						+ this.getClass().getSimpleName() +"_REPORT.html");
-		extent = new ExtentReports ();
-		extent.attachReporter(htmlReporter);
-		extent.setSystemInfo("Host Name", "borhanMorphy");
-		extent.setSystemInfo("Environment", "Project Demo");
-		extent.setSystemInfo("User Name", "Omer BORHAN");
-
-		htmlReporter.config().setDocumentTitle("Selenium Project");
-		htmlReporter.config().setReportName("Check Top Rated Movies");
-		htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
-		htmlReporter.config().setTheme(Theme.STANDARD);
-		/************************************/
+		objReporter = new ExtentAPIReporter("movie_control");
 		
 		// creating driver with given browser and URL
 		driver = CrossBrowserHandler.startBrowser("chrome", "http://www.imdb.com/");
@@ -75,12 +50,11 @@ public class TestSample01 {
 
 	@Test
 	public void checkMovieNames() {
-		// assuming test is passed
-		boolean testControl = true;
-
-		// creating logger
-		logger = extent.createTest("Try To Match Given Movies");
-
+		
+		// creating a test logger
+		objReporter.setupLogger("movie check");
+		
+		// creating pages
 		objHomePage = new HomePage(driver);
 
 		objHomePage.goToTopRatedMovies();
@@ -95,42 +69,39 @@ public class TestSample01 {
 			if(arrayEN[i].equalsIgnoreCase(movieList[i]) ||
 					arrayTR[i].equalsIgnoreCase(movieList[i]) 
 					) {
+				
 				// keep logging if its matched
-				logger.log(Status.PASS, MarkupHelper.createLabel(
-						arrayEN[i]+" is matched", ExtentColor.GREEN));
-
+				objReporter.LOG(Status.PASS , arrayEN[i]+" is matched" );
 			}
 			else {
-				testControl = false;
-				// catch error and log as fail
-				logger.log(Status.FAIL, MarkupHelper.createLabel(
-						arrayEN[i]+" is not matched!", ExtentColor.RED));
-
+				
+				// test fail. Add log
+				objReporter.LOG(Status.ERROR , arrayEN[i]+" is not matched!" );
 			}
 		}
 
 		// check if test is passed
-		Assert.assertTrue(testControl);
+		Assert.assertTrue(objReporter.isTestControl());
 
 	}
 
 	@AfterMethod
 	public void handleError(ITestResult result) {
 		if(result.getStatus() == ITestResult.FAILURE){
-
-			logger.log(Status.FAIL, MarkupHelper.createLabel(
-					result.getName() + " - Test Case Failed - "+result.getThrowable(), ExtentColor.RED));
+			
+			objReporter.LOG(Status.FAIL , result.getName() 
+					+ result.getThrowable() );
 
 		}
 		else if(result.getStatus() == ITestResult.SKIP){
-
-			logger.log(Status.SKIP, MarkupHelper.createLabel
-					(result.getName() + " - Test Case Skipped", ExtentColor.ORANGE));	
-
+			
+			objReporter.LOG(Status.SKIP ,
+					result.getName() + " - Test Case Skipped" );
+			
 		}
 
 		// cleanup
-		extent.flush();
+		objReporter.cleanup();
 		driver.close();
 	}
 
