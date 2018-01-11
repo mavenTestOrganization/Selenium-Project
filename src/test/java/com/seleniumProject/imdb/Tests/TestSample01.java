@@ -33,7 +33,7 @@ public class TestSample01 {
 		ExtentTest logger;
 		/*********************************/
 
-		// Needed Pages for the testScript
+		// Needed Pages for the test
 		HomePage objHomePage;
 
 		TopRatedPage objTopRatedPage;
@@ -70,7 +70,7 @@ public class TestSample01 {
 		}
 		
 		@Test
-		public void checkMovieNames(String[] arrayEN,String[] arrayTR) {
+		public void checkMovieNames() {
 			// creating logger
 			logger = extent.createTest("Try To Match Given Movies");
 
@@ -104,10 +104,9 @@ public class TestSample01 {
 		}
 		
 		@AfterTest
-		public void cleanup(boolean closeBrowser) {
+		public void cleanup() {
 			extent.flush();
-			if(closeBrowser)
-				driver.close();
+			driver.close();
 		}
 
 }
