@@ -22,9 +22,6 @@ public class HomePage {
 	@FindBy(xpath = "//*[@id=\"navbar-submit-button\"]/div")
 	WebElement searchButton;
 
-	@FindBy(xpath = "//*[@id=\"quicksearch\"]")
-	WebElement searchReference;
-
 	@FindBy(xpath = "//*[@id=\"navMenu1\"]/div[2]/ul[1]/li[6]/a")
 	WebElement showTopRatedMovies;
 
@@ -49,15 +46,15 @@ public class HomePage {
 	 * @return
 	 */
 	public void goToTopRatedMovies() {
-		
+
 		enableMenu.click();
-		
+
 		WebDriverWait wait = new WebDriverWait(driver, 20);
-		
+
 		// wait until menu is visible
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
 				By.id("navMenu1")));
-		
+
 		showTopRatedMovies.click();
 
 	}
@@ -70,6 +67,11 @@ public class HomePage {
 
 	}
 
+	public void clickSearchButton() {
+
+		searchButton.click();
+	}
+
 	/**
 	 * This function types the given input to searchBox and
 	 * finds the suggestions with range of given parameter
@@ -80,20 +82,20 @@ public class HomePage {
 	public String[] getSuggestions(String keyWords,int range) {
 
 		this.setTextToSeachBox(keyWords);
-		
+
 		WebDriverWait wait = new WebDriverWait(driver, 20);
-		
+
 		// wait until suggestion bar is visible
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
 				By.id("navbar-suggestionsearch")));
-		
+
 		String[] tempList = new String[range];
-		
+
 		for(int i = 0 ; i < range ; i++) {
-			
+
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
 					"//*[@id=\"navbar-suggestionsearch\"]/a["+(i+1)+"]/div")));
-			
+
 			tempList[i] = driver.findElement(By.xpath(
 					"//*[@id=\"navbar-suggestionsearch\"]/a["+(i+1)+"]/div"
 					)).getText();
@@ -104,9 +106,11 @@ public class HomePage {
 	 *
 	 * @param reference
 	 */
-	public void setSearchReference(String reference) {
-
-		searchReference.sendKeys(reference);
+	public void setSearchReference() {
+		
+		driver.findElement(By.id("quicksearch")).click();
+		
+		driver.findElement(By.xpath("//*[@id=\"quicksearch\"]/option[4]")).click();
 
 	}
 

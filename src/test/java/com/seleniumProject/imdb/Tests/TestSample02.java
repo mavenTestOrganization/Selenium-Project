@@ -65,7 +65,7 @@ public class TestSample02 {
 		extent.setSystemInfo("User Name", "Omer BORHAN");
 
 		htmlReporter.config().setDocumentTitle("Selenium Project");
-		htmlReporter.config().setReportName("Check Top Rated Movies");
+		htmlReporter.config().setReportName("Check Suggestions");
 		htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
 		htmlReporter.config().setTheme(Theme.STANDARD);
 		/*************************************/
