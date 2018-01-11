@@ -1,26 +1,17 @@
 package com.seleniumProject.imdb.Pages;
 
-import java.util.List;
-
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
-
+/**
+ * 
+ * Page contents for www.imdb.com top rated page section
+ *
+ */
 public class TopRatedPage {
 
 	WebDriver driver;
 
-	@FindBys({
-		@FindBy(xpath = "//*[@id=\"main\"]/div/span/div/div/div[3]/table/tbody/tr[1]/td[2]/a"),
-		@FindBy(xpath = "//*[@id=\"main\"]/div/span/div/div/div[3]/table/tbody/tr[2]/td[2]/a"),
-		@FindBy(xpath = "//*[@id=\"main\"]/div/span/div/div/div[3]/table/tbody/tr[3]/td[2]/a"),
-		@FindBy(xpath = "//*[@id=\"main\"]/div/span/div/div/div[3]/table/tbody/tr[4]/td[2]/a"),
-		@FindBy(xpath = "//*[@id=\"main\"]/div/span/div/div/div[3]/table/tbody/tr[5]/td[2]/a")
-	})
-	List<WebElement> topFiveRatedMovies;
-	
 	public TopRatedPage(WebDriver driver) {
 
 		this.driver = driver;
@@ -31,21 +22,25 @@ public class TopRatedPage {
 
 	}
 	/**
-	 * This function holds movie names. 
+	 * This function returns given top rated movies
+	 * using given count parameter
 	 * 
-	 * @param
+	 * @param count
 	 * 
-	 * @return String array that collected from List<WebElement>
+	 * @return String array that collected from driver
 	 */
-	public String[] getTopFiveRatedMovies() {
+	public String[] getTopRatedMovies(int count) {
 		
-		String[] myList = new String[topFiveRatedMovies.size()];
+		String[] tempList = new String[count];
 
-		for(int i = 0 ; i < myList.length ; i++)
-			myList[i] = topFiveRatedMovies.get(i).getText();
+		for(int i = 0 ; i < count ; i++){	
+			tempList[i] = driver.findElement(By.xpath(
+					"//*[@id=\"main\"]/div/span/div/div/div[3]/table/tbody/tr["+(i+1)+"]/td[2]/a"
+					)).getText();
+		}
 
-		return myList;
-		
+		return tempList;
+
 	}
-	
+
 }

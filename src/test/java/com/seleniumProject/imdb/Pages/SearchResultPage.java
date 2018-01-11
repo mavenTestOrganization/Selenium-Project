@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 /**
- * 
+ *
  * This class is a description for result page
  * due to homePage's search box execution
  *
@@ -28,6 +28,7 @@ public class SearchResultPage {
 	}
 	
 	/**
+	 * 
 	 * This function clicks the first text-link from the list
 	 * 
 	 */

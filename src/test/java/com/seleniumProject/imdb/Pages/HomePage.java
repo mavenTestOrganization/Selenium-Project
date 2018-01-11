@@ -1,16 +1,19 @@
 package com.seleniumProject.imdb.Pages;
 
-import java.util.List;
-
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * Page contents for www.imdb.com home page
+ *
+ */
 public class HomePage {
-	
-	
+
 	WebDriver driver;
 
 	@FindBy(xpath = "//*[@id=\"navbar-query\"]")
@@ -22,19 +25,11 @@ public class HomePage {
 	@FindBy(xpath = "//*[@id=\"quicksearch\"]")
 	WebElement searchReference;
 
-	@FindBy(xpath = "/html/body/div[1]/div/div[1]/div[2]/div[1]/ul/li[2]/div/div[2]/ul[1]/li[6]/a")
+	@FindBy(xpath = "//*[@id=\"navMenu1\"]/div[2]/ul[1]/li[6]/a")
 	WebElement showTopRatedMovies;
-	
+
 	@FindBy(xpath = "//*[@id=\"navTitleMenu\"]/span")
 	WebElement enableMenu;
-
-	@FindBys({
-		@FindBy(xpath = "//*[@id=\\\"navbar-suggestionsearch\\\"]/a[0]/div"),
-		@FindBy(xpath = "//*[@id=\\\"navbar-suggestionsearch\\\"]/a[1]/div"),
-		@FindBy(xpath = "//*[@id=\\\"navbar-suggestionsearch\\\"]/a[2]/div")
-	})
-	List<WebElement> firstThreeSuggesstions;
-
 
 	public HomePage(WebDriver driver) {
 
@@ -46,17 +41,26 @@ public class HomePage {
 
 	}
 	/**
-	 * 
+	 * This function clicks the enable Menu and wait for
+	 * visibility of Menu by given id than click the
+	 * top rated movies
 	 * @param
 	 * 
 	 * @return
 	 */
 	public void goToTopRatedMovies() {
+		
 		enableMenu.click();
+		
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		
+		// wait until menu is visible
+		wait.until(ExpectedConditions.visibilityOfElementLocated(
+				By.id("navMenu1")));
+		
 		showTopRatedMovies.click();
 
 	}
-
 
 	public void setTextToSeachBox(String keyWords) {
 
@@ -68,21 +72,28 @@ public class HomePage {
 
 	/**
 	 * This function types the given input to searchBox and
-	 * finds the suggestions
-	 * 
+	 * finds the suggestions with range of given parameter
 	 * @param keyWords
-	 * 
-	 * @return String array that collected from List<WebElement>
+	 * @param count
+	 * @return String[]
 	 */
-	public String[] getFirstThreeSuggesstions(String keyWords) {
+	public String[] getSuggestions(String keyWords,int range) {
 
 		this.setTextToSeachBox(keyWords);
- 
-		String[] tempList = new String[firstThreeSuggesstions.size()];
+		
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		
+		// wait until suggestion bar is visible
+		wait.until(ExpectedConditions.visibilityOfElementLocated(
+				By.id("navbar-suggestionsearch")));
 
-		for(int i = 0 ; i < tempList.length ; i++)
-			tempList[i] = firstThreeSuggesstions.get(i).getText();
+		String[] tempList = new String[range];
 
+		for(int i = 0 ; i < range ; i++) {
+			tempList[i] = driver.findElement(By.xpath(
+					"//*[@id=\"navbar-suggestionsearch\"]/a["+(i+1)+"]/div"
+					)).getText();
+		}
 		return tempList;
 	}
 	/**
@@ -90,9 +101,9 @@ public class HomePage {
 	 * @param reference
 	 */
 	public void setSearchReference(String reference) {
-		
+
 		searchReference.sendKeys(reference);
-		
+
 	}
 
 }
