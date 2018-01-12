@@ -3,6 +3,8 @@ package com.seleniumProject.imdb.Tests;
 import com.seleniumProject.imdb.Pages.HomePage;
 import com.seleniumProject.imdb.Pages.SearchResultPage;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -22,7 +24,8 @@ import com.seleniumProject.imdb.Pages.ActorProfilePage;
  */
 public class TestSample03 {
 	
-	// Extent - Reporter object
+	static final Logger logger = LogManager.getLogger(TestSample03.class);
+	// Extent - Reporter1 object
 	ExtentAPIReporter objReporter;
 
 	// Needed Pages for the test
@@ -57,7 +60,8 @@ public class TestSample03 {
 		objReporter = new ExtentAPIReporter(searchKey+"_"+reportName);
 
 		// creating driver with given browser and URL
-		driver = CrossBrowserHandler.startBrowser("firefox", "http://www.imdb.com/");
+		logger.info("Opening browser");
+		driver = CrossBrowserHandler.startBrowser("chrome", "http://www.imdb.com/");
 
 		// creating logger
 		objReporter.setupLogger("Compare Images");
@@ -69,25 +73,28 @@ public class TestSample03 {
 		objHomePage.clickSearchButton();
 
 		objSearchResultPage = new SearchResultPage(driver);
-
+		logger.trace("Select First Result");
 		objSearchResultPage.clickFirstResultFromName();
 
 		objActorProfilePage = new ActorProfilePage(driver);
 		
+		logger.trace("Comparing Image");
 		if(MD5ImageComparator.compareIMAGE(
 				URL,
 				objActorProfilePage.getPhotoURL("name-poster") ) ) {
-			// if picture is matched
+			// if pictures are matched
 			objReporter.LOG(Status.PASS, "same" );
+			logger.debug("Images are matched");
 		}
 		else {
 			objReporter.LOG(Status.ERROR, "not same!");
+			logger.error("Images are not matched!");
 		}
 
 		// cleanup
 		objReporter.cleanup();
 		driver.close();
-
+		logger.info("Closing browser");
 		// check if the test is passed
 		Assert.assertTrue(objReporter.isTestControl());
 	}

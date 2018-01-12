@@ -1,5 +1,7 @@
 package com.seleniumProject.imdb.Tests;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.ITestResult;
@@ -21,6 +23,7 @@ import com.seleniumProject.imdb.Pages.TopRatedPage;
  */
 public class TestSample01 {
 	
+	static final Logger logger = LogManager.getLogger(TestSample01.class);
 	// Extent - Reporter object
 	ExtentAPIReporter objReporter;
 
@@ -44,8 +47,9 @@ public class TestSample01 {
 	public void init() {
 		objReporter = new ExtentAPIReporter("movie_control");
 		
+		logger.info("Opening Browser");
 		// creating driver with given browser and URL
-		driver = CrossBrowserHandler.startBrowser("chrome", "http://www.imdb.com/");
+		driver = CrossBrowserHandler.startBrowser("firefox", "http://www.imdb.com/");
 	}
 
 	@Test
@@ -56,30 +60,31 @@ public class TestSample01 {
 		
 		// creating pages
 		objHomePage = new HomePage(driver);
-
+		logger.trace("Select Top Rated Movies");
 		objHomePage.goToTopRatedMovies();
 
 		objTopRatedPage = new TopRatedPage(driver);
 		
 		// getting top rated movies from the list with count of array length
 		String[] movieList = objTopRatedPage.getTopRatedMovies(arrayTR.length);
-
+		logger.debug("Checking List");
 		for(int i = 0; i < movieList.length ; i++) {
 			// check either on of them is found (TR or ENG)
 			if(arrayEN[i].equalsIgnoreCase(movieList[i]) ||
 					arrayTR[i].equalsIgnoreCase(movieList[i]) 
 					) {
-				
+				logger.debug(arrayEN[i]+" is matched" );
 				// keep logging if its matched
 				objReporter.LOG(Status.PASS , arrayEN[i]+" is matched" );
 			}
 			else {
-				
+				logger.error(arrayEN[i]+" is not matched" );
 				// test fail. Add log
 				objReporter.LOG(Status.ERROR , arrayEN[i]+" is not matched!" );
 			}
 		}
-
+		
+		logger.info("Closing Browser");
 		// check if test is passed
 		Assert.assertTrue(objReporter.isTestControl());
 
